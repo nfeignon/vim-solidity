@@ -137,12 +137,25 @@ hi def link solEvent             Type
 hi def link solEventName         Function
 hi def link solEventArgSpecial   Label
 
-" Comment
-syn keyword solCommentTodo       TODO FIXME XXX TBD contained
-syn region  solLineComment       start=+\/\/+ end=+$+ contains=solCommentTodo,@Spell
-syn region  solLineComment       start=+^\s*\/\/+ skip=+\n\s*\/\/+ end=+$+ contains=solCommentTodo,@Spell fold
-syn region  solComment           start="/\*"  end="\*/" contains=solCommentTodo,@Spell fold
+" Comments
+syn keyword   solTodo             TODO FIXME XXX TBD contained
+syn region    solComment          start=/\/\// end=/$/ contains=solTodo
+syn region    solComment          start=/\/\*/ end=/\*\// contains=solTodo
 
-hi def link solCommentTodo       Todo
-hi def link solLineComment       Comment
-hi def link solComment           Comment
+hi def link   solTodo             Todo
+hi def link   solComment          Comment
+
+" Natspec
+syn match     solNatspecTag       /@dev\>/ contained
+syn match     solNatspecTag       /@title\>/ contained
+syn match     solNatspecTag       /@author\>/ contained
+syn match     solNatspecTag       /@notice\>/ contained
+syn match     solNatspecTag       /@param\>/ contained
+syn match     solNatspecTag       /@return\>/ contained
+syn match     solNatspecParam     /\(@param\s*\)\@<=\<[a-zA-Z_][0-9a-zA-Z_]*/
+syn region    solNatspecBlock     start=/\/\/\// end=/$/ contains=solTodo,solNatspecTag,solNatspecParam
+syn region    solNatspecBlock     start=/\/\*\{2}/ end=/\*\// contains=solTodo,solNatspecTag,solNatspecParam
+
+hi def link   solNatspecTag       SpecialComment
+hi def link   solNatspecBlock     Comment
+hi def link   solNatspecParam     Define
